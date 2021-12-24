@@ -11,7 +11,7 @@ class IntentChat:
 
     def createModel(self):
         # 데이터 읽어오기
-        train_file = "./data/Q&A_L.csv"
+        train_file = "./data/train.csv"
         data = pd.read_csv(train_file, delimiter=',')
         features = data['question'].tolist()
         labels = data['intent'].tolist()
@@ -81,7 +81,7 @@ class IntentChat:
 
     def predictModel(self):
         # 데이터 읽어오기
-        train_file = "./data/Q&A_L.csv"
+        train_file = "./data/train.csv"
         data = pd.read_csv(train_file, delimiter=',')
         features = data['question'].tolist()
         labels = data['intent'].tolist()
@@ -127,5 +127,5 @@ class IntentChat:
 
 if __name__ == '__main__':
     ic = IntentChat()
-    # ic.createModel()
+    ic.createModel()
     ic.predictModel()

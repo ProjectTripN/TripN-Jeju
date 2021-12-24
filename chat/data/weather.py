@@ -59,33 +59,34 @@ class Weather(object):
         time = str((int(base_time) + 100)) if int(base_time) + 100 < 2400 else "0000"
         time = time if len(time) == 4 else f'0{time}'
         day = [base_date, self.date_string(datetime.now() + dt.timedelta(days=1)), self.date_string(datetime.now() + dt.timedelta(days=2))]
-        sky, pty = [], []
+        sky, pty, tmp = [], [], []
         for i in weather:
             if i['fcstDate'] == base_date and i['fcstTime'] == time:
                 if i['category'] == 'SKY':
                     sky.append(i)
                 elif i['category'] == 'PTY':
                     pty.append(i)
+                elif i['category'] == 'TMP':
+                    tmp.append(i)
             elif i['fcstDate'] == day[1] and i['fcstTime'] == time:
                 if i['category'] == 'SKY':
                     sky.append(i)
                 elif i['category'] == 'PTY':
                     pty.append(i)
+                elif i['category'] == 'TMP':
+                    tmp.append(i)
             elif i['fcstDate'] == day[2] and i['fcstTime'] == time:
                 if i['category'] == 'SKY':
                     sky.append(i)
                 elif i['category'] == 'PTY':
                     pty.append(i)
+                elif i['category'] == 'TMP':
+                    tmp.append(i)
         result = [self.weather_transfer(sky[i], pty[i]) for i in range(len(sky))]
-        return {j : result[i] for i, j in enumerate(day)}
+        tmp = [i['fcstValue'] for i in tmp]
+        return {j : [result[i], tmp[i]] for i, j in enumerate(day)}
 
     def weather_api(self):
-        # 강남구 위경도
-        # nx = 61
-        # ny = 126
-        # 서울 경도
-        nx = 60
-        ny = 127
         # 현재 시간
         now = datetime.now()
         base_date = self.date_string(now)

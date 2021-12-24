@@ -27,7 +27,12 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 #    && \
 #    echo "conda create -n venv" >> ~/.bashrc && \
 #    echo "conda activate venv" >> ~/.bashrc
-#
+
+RUN apt-get update && \
+    apt-get install -y openjdk-11-jdk
+ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
+
+
 ENV DOCKERIZE_VERSION v0.2.0
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \

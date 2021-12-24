@@ -121,15 +121,15 @@ WSGI_APPLICATION = 'api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tripN_jejudb',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST':'host.docker.internal',
+        # 'NAME': 'tripN_jejudb',
+        # 'USER': 'root',
+        # 'PASSWORD': 'root',
+        # 'HOST':'host.docker.internal',
         # 'HOST': '127.0.0.1',
-        # 'NAME': 'tripN_mariadb',
-        # 'USER': 'admin',
-        # 'PASSWORD': get_secret("AWS_PASS"),
-        # 'HOST': get_secret("AWS_HOST"),
+        'NAME': 'tripN_mariadb',
+        'USER': 'admin',
+        'PASSWORD': get_secret("AWS_PASS"),
+        'HOST': get_secret("AWS_HOST"),
         'PORT': '3306'
     }
 }

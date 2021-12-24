@@ -53,22 +53,22 @@ def chat(request):
     print('############ 3 ##########')
     cp = ChatProcess()
 
-    if predict < 100:  # F&A
+    if predict[0] <= 106:  # F&A
         answer = cp.q_answer(predict)
         # return JsonResponse({'Product chat': f'{answer}'})
-    elif 100 < predict < 113:  # weather
+    elif 107 <= predict[0] <= 112:  # weather
         answer = cp.w_answer(predict)
         # return JsonResponse({'Product chat': f'{answer}'})
-    elif 112 < predict < 121:  # tourism
+    elif 113 <= predict[0] <= 120:  # tourism
         answer = cp.tourism_answer(predict)
         # return JsonResponse({'Product chat': f'{answer}'})
-    elif 121 <= predict <= 144:  # activity
+    elif 121 <= predict[0] <= 144:  # activity
         answer = cp.activity_answer(predict)
         # return JsonResponse({'Product chat': f'{answer}'})
-    elif 145 <= predict <= 160:  # restaurant
+    elif 145 <= predict[0] <= 160:  # restaurant
         answer = cp.restaurant_answer(predict)
         # return JsonResponse({'Product chat': f'{answer}'})
-    elif 161 <= predict <= 162:  # shop
+    elif 161 <= predict[0] <= 162:  # shop
         answer = cp.shop_answer(predict)
         # return JsonResponse({'Product chat': f'{answer}'})
 

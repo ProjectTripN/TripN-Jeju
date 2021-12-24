@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mariadb://host.docker.internal:3306/tripN_jejudb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="AWS-tripN" uuid="65a806c9-12d3-475f-bc29-a395995eaf3c">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://tripn-mariadb.cjqwzpmwskdx.ap-northeast-2.rds.amazonaws.com:3306/tripN_mariadb</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

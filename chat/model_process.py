@@ -22,95 +22,105 @@ class ChatProcess:
         return answer['answer']
 
 
-
+    # 112: '특정 요일 서귀포 날씨', 111: '서귀포 특정 월일 날씨', 110: '서귀포 특정일 날씨', 109: ['서귀포', 53, 33, '모레', ttom], 108: ['서귀포', 53, 33, '내일', tom], 107: ['서귀포', 53, 33, '오늘', today], 106: '특정 요일 제주 날씨',
+    #                      105: '제주 특정 월일 날씨', 104: '제주 특정일 날씨', 103: ['제주', 53, 38, '모레', ttom], 102: ['제주', 53, 38, '내일', tom], 101: ['제주', 53, 38, '오늘', today]
     def w_answer(self, intent):
-        today = dt.datetime.now()
-        tom = dt.datetime.now() + dt.timedelta(days=1)
-        ttom = dt.datetime.now() + dt.timedelta(days=2)
-        today = str(today)[0:4] + str(today)[5:7] + str(today)[8:10]
-        tom = str(tom)[0:4] + str(tom)[5:7] + str(tom)[8:10]
-        ttom = str(ttom)[0:4] + str(ttom)[5:7] + str(ttom)[8:10]
-        if intent <= 106:
-            # 제주시 위경도
-            nx = 53
-            ny = 38
-            w = Weather().weather_pre(nx, ny)
-            if intent == 101:
-                # 제주 오늘 날씨
-                return f'오늘 제주의 날씨는 {w[today]} 입니다.'
-            elif intent == 102:
-                # 제주 내일 날씨
-                return f'내일 제주의 날씨는 {w[tom]} 입니다.'
-            elif intent == 103:
-                # 2일 뒤 제주 날씨
-                return f'모레 제주의 날씨는 {w[ttom]} 입니다.'
-            else:
-                return None
-        else:
-            # 서귀포시 위경도
-            nx = 52
-            ny = 33
-            w = Weather().weather_pre(nx, ny)
-            if intent == 107:
-                # 서귀포 오늘 날씨
-                return f'오늘 서귀포시의 날씨는 {w[today]} 입니다.'
-            elif intent == 108:
-                # 서귀포 내일 날씨
-                return f'내일 서귀포시의 날씨는 {w[tom]} 입니다.'
-            elif intent == 109:
-                # 2일 뒤 서귀포 날씨
-                return f'모레 서귀포시의 날씨는 {w[ttom]} 입니다.'
-            else:
-                return '알 수 없습니다.'
+        # 101: ['제주', 53, 38, '오늘', today]
+        try:
+            w = Weather().weather_pre(intent[1][1], intent[1][2])
+            return f'{intent[1][3]} {intent[1][0]}의 평균기온은 {w[(intent[1][4])][1]}도이며, 날씨는 {w[(intent[1][4])][0]} 입니다.'
+        except:
+            return '알 수 없습니다.'
+        # print(intent[1][4])
+        # if intent[0] <= 106:
+        #     # 제주시 위경도
+        #     nx = 53
+        #     ny = 38
+        #     w = Weather().weather_pre(intent[1][1], intent[1][2])
+        #     if intent[0] == 101:
+        #         # 제주 오늘 날씨
+        #         return f"{intent[1][3]} {intent[1][0]}의 평균기온은 {w[(intent[1][4])][1]}도이며, 날씨는 {w[(intent[1][4])][0]} 입니다."
+        #     elif intent[0] == 102:
+        #         # 제주 내일 날씨
+        #         return f'내일 제주의 평균기온 {w[tom][1]}도로, {w[tom][0]} 입니다.'
+        #     elif intent[0] == 103:
+        #         # 2일 뒤 제주 날씨
+        #         return f'모레 제주의 평균기온 {w[ttom][1]}도로, {w[ttom][0]} 입니다.'
+        #     else:
+        #         return '알 수 없습니다.'
+        # else:
+        #     # 서귀포시 위경도
+        #     nx = 52
+        #     ny = 33
+        #     w = Weather().weather_pre(nx, ny)
+        #     if intent[0] == 107:
+        #         # 서귀포 오늘 날씨
+        #         return f'오늘 서귀포시는 평균기온 {w[today][1]}도로, {w[today]} 입니다.'
+        #     elif intent[0] == 108:
+        #         # 서귀포 내일 날씨
+        #         return f'내일 서귀포시의 평균기온 {w[tom][1]}도로, {w[tom]} 입니다.'
+        #     elif intent[0] == 109:
+        #         # 2일 뒤 서귀포 날씨
+        #         return f'모레 서귀포시의 평균기온 {w[ttom][1]}도로, {w[ttom]} 입니다.'
+        #     else:
+        #         return '알 수 없습니다.'
 
 
     def tourism_answer(self, intent):
         # 제주 : 113 - 116
         # 전체, 오름, 해수욕장, 그외 명소
         # 서귀포 : 117 - 120
-        if 113 <= intent <= 116 :
+        if 113 <= intent[0] <= 116 :
             tourism = Tourism.objects.filter(address__contains='제주시')
             # answer = Chatbot.objects.filter(label=label).values('answer').order_by('?').first()
-            if intent == 113:  # 제주 전체
+            if intent[0] == 113:  # 제주 전체
                 answer = tourism.values().order_by('?').first()
                 if answer != None:
                     return f"{answer['name']}을 추천합니다. \n 위치는\n {answer['address']} 입니다. \n {answer['name']}은 \n {answer['explanation']}"
                 else:
                     return '가지고 있는 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
-
-            if intent == 114:  # 제주 명소
+            if intent[0] == 114:  # 제주 명소
                 answer = tourism.exclude(tour_category_id__in=[1, 12]).values().order_by('?').first()
-                return f"{answer['name']}을 추천합니다. \n 위치는\n {answer['address']} 입니다. \n {answer['name']}은 \n {answer['explanation']}"
-            elif intent == 115:  # 제주 해수욕장
+                if answer != None:
+                    return f"{answer['name']}을 추천합니다. \n 위치는\n {answer['address']} 입니다. \n {answer['name']}은 \n {answer['explanation']}"
+                else:
+                    return '가지고 있는 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
+            elif intent[0] == 115:  # 제주 해수욕장
                 answer = tourism.filter(tour_category_id__in=[1]).values().order_by('?').first()
-                return f"{answer['name']}을 추천합니다. \n 위치는\n {answer['address']} 입니다. \n {answer['name']}은 \n {answer['explanation']}"
-            elif intent == 116:  # 제주 오름
+                if answer != None:
+                    return f"{answer['name']}을 추천합니다. \n 위치는\n {answer['address']} 입니다. \n {answer['name']}은 \n {answer['explanation']}"
+                else:
+                    return '가지고 있는 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
+            elif intent[0] == 116:  # 제주 오름
                 answer = tourism.filter(tour_category_id=12).values().order_by('?').first()
-                return f"{answer['name']}을 추천합니다. \n 위치는\n {answer['address']} 입니다. \n {answer['name']}은 \n {answer['explanation']}"
+                if answer != None:
+                    return f"{answer['name']}을 추천합니다. \n 위치는\n {answer['address']} 입니다. \n {answer['name']}은 \n {answer['explanation']}"
+                else:
+                    return '가지고 있는 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
 
             else:
                 return '알 수 없습니다.'
-        elif 117 <= intent <= 120:
+        elif 117 <= intent[0] <= 120:
             tourism = Tourism.objects.filter(address__contains='서귀포')
-            if intent == 117:  # 서귀포 전체
+            if intent[0] == 117:  # 서귀포 전체
                 answer = tourism.values().order_by('?').first()
                 if answer != None:
                     return f"{answer['name']}을 추천합니다. <br/> 위치는<br/> {answer['address']} 입니다. <br/> {answer['name']}은 <br/> {answer['explanation']}"
                 else:
                     return '가지고 있는 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
-            elif intent == 118:  # 서귀포 명소
+            elif intent[0] == 118:  # 서귀포 명소
                 answer = tourism.exclude(tour_category_id__in=[1, 12]).values().order_by('?').first()
                 if answer != None:
                     return f"{answer['name']}을 추천합니다. \n 위치는\n {answer['address']} 입니다. \n {answer['name']}은 \n {answer['explanation']}"
                 else:
                     return '가지고 있는 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
-            elif intent == 119:  # 서귀포 해수욕장
+            elif intent[0] == 119:  # 서귀포 해수욕장
                 answer = tourism.filter(tour_category_id=1).values().order_by('?').first()
                 if answer != None:
                     return f"{answer['name']}을 추천합니다. \n 위치는\n {answer['address']} 입니다. \n {answer['name']}은 \n {answer['explanation']}"
                 else:
                     return '가지고 있는 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
-            elif intent == 120:  # 서귀포 오름
+            elif intent[0] == 120:  # 서귀포 오름
                 answer = tourism.filter(tour_category_id=12).values().order_by('?').first()
                 if answer != None:
                     return f"{answer['name']}을 추천합니다. \n 위치는\n {answer['address']} 입니다. \n {answer['name']}은 \n {answer['explanation']}"
@@ -128,60 +138,60 @@ class ChatProcess:
         # 144: '서귀포 액티비티 요가 추천', 143: '서귀포 액티비티 요리 추천', 142: '서귀포 액티비티 공예 추천', 141: '서귀포 액티비티 클래스 추천', 140: '서귀포 액티비티 체험 추천',
         # 139: '서귀포 액티비티 익스트림액티비티 추천', 138: '서귀포 액티비티 승마 추천', 137: '서귀포 액티비티 수상액티비티 추천', 136: '서귀포 액티비티 서핑 추천',
         # 135: '서귀포 액티비티 레이싱 추천', 134: '서귀포 액티비티 중 추천', 133: '서귀포 전체 액티비티 추천'
-        if 121 <= intent <= 132 :
+        if 121 <= intent[0] <= 132 :
             activity = Activity.objects.filter(loc__contains='제주시')
             # answer = Chatbot.objects.filter(label=label).values('answer').order_by('?').first()
-            if intent == 121:  # 제주 전체 액티비티 추천
+            if intent[0] == 121:  # 제주 전체 액티비티 추천
                 answer = activity.values().order_by('?').first()
-            elif intent == 122:  # 제주 액티비티 중 추천
+            elif intent[0] == 122:  # 제주 액티비티 중 추천
                 answer = activity.filter(act_category__category="액티비티").values().order_by('?').first()
-            elif intent == 123:  # 제주 액티비티 레이싱 추천
+            elif intent[0] == 123:  # 제주 액티비티 레이싱 추천
                 answer = activity.filter(act_category__type="레이싱").values().order_by('?').first()
-            elif intent == 124:  # 제주 액티비티 서핑 추천
+            elif intent[0] == 124:  # 제주 액티비티 서핑 추천
                 answer = activity.filter(act_category__type="서핑").values().order_by('?').first()
-            elif intent == 125:  # 제주 액티비티 수상액티비티 추천
+            elif intent[0] == 125:  # 제주 액티비티 수상액티비티 추천
                 answer = activity.filter(act_category__type="수상액티비티").values().order_by('?').first()
-            elif intent == 126:  # 제주 액티비티 승마 추천
+            elif intent[0] == 126:  # 제주 액티비티 승마 추천
                 answer = activity.filter(act_category__type="승마").values().order_by('?').first()
-            elif intent == 127:  # 제주 액티비티 익스트림액티비티 추천
+            elif intent[0] == 127:  # 제주 액티비티 익스트림액티비티 추천
                 answer = activity.filter(act_category__type="익스트림액티비티").values().order_by('?').first()
-            elif intent == 128:  # 제주 액티비티 체험 추천
+            elif intent[0] == 128:  # 제주 액티비티 체험 추천
                 answer = activity.filter(act_category__category="체험").values().order_by('?').first()
-            elif intent == 129:  # 제주 액티비티 클래스 추천
+            elif intent[0] == 129:  # 제주 액티비티 클래스 추천
                 answer = activity.filter(act_category__category="클래스").values().order_by('?').first()
-            elif intent == 130:  # 제주 액티비티 공예 추천
+            elif intent[0] == 130:  # 제주 액티비티 공예 추천
                 answer = activity.filter(act_category__type="공예").values().order_by('?').first()
-            elif intent == 131:  # 제주 액티비티 요리 추천
+            elif intent[0] == 131:  # 제주 액티비티 요리 추천
                 answer = activity.filter(act_category__type="요리").values().order_by('?').first()
-            elif intent == 132:  # 제주 액티비티 요가 추천
+            elif intent[0] == 132:  # 제주 액티비티 요가 추천
                 answer = activity.filter(act_category__type="요가").values().order_by('?').first()
 
-        elif 133 <= intent <= 144:
+        elif 133 <= intent[0] <= 144:
             activity = Activity.objects.filter(loc__contains='제주시')
             # answer = Chatbot.objects.filter(label=label).values('answer').order_by('?').first()
-            if intent == 133:  # 서귀포 전체 액티비티 추천
+            if intent[0] == 133:  # 서귀포 전체 액티비티 추천
                 answer = activity.values().order_by('?').first()
-            elif intent == 134:  # 서귀포 액티비티 중 추천
+            elif intent[0] == 134:  # 서귀포 액티비티 중 추천
                 answer = activity.filter(act_category__category="액티비티").values().order_by('?').first()
-            elif intent == 135:  # 서귀포 액티비티 레이싱 추천
+            elif intent[0] == 135:  # 서귀포 액티비티 레이싱 추천
                 answer = activity.filter(act_category__type="레이싱").values().order_by('?').first()
-            elif intent == 136:  # 서귀포 액티비티 서핑 추천
+            elif intent[0] == 136:  # 서귀포 액티비티 서핑 추천
                 answer = activity.filter(act_category__type="서핑").values().order_by('?').first()
-            elif intent == 137:  # 서귀포 액티비티 수상액티비티 추천
+            elif intent[0] == 137:  # 서귀포 액티비티 수상액티비티 추천
                 answer = activity.filter(act_category__type="수상액티비티").values().order_by('?').first()
-            elif intent == 138:  # 서귀포 액티비티 승마 추천
+            elif intent[0] == 138:  # 서귀포 액티비티 승마 추천
                 answer = activity.filter(act_category__type="승마").values().order_by('?').first()
-            elif intent == 139:  # 서귀포 액티비티 익스트림액티비티 추천
+            elif intent[0] == 139:  # 서귀포 액티비티 익스트림액티비티 추천
                 answer = activity.filter(act_category__type="익스트림액티비티").values().order_by('?').first()
-            elif intent == 140:  # 서귀포 액티비티 체험 추천
+            elif intent[0] == 140:  # 서귀포 액티비티 체험 추천
                 answer = activity.filter(act_category__category="체험").values().order_by('?').first()
-            elif intent == 141:  # 서귀포 액티비티 클래스 추천
+            elif intent[0] == 141:  # 서귀포 액티비티 클래스 추천
                 answer = activity.filter(act_category__category="클래스").values().order_by('?').first()
-            elif intent == 142:  # 서귀포 액티비티 공예 추천
+            elif intent[0] == 142:  # 서귀포 액티비티 공예 추천
                 answer = activity.filter(act_category__type="공예").values().order_by('?').first()
-            elif intent == 143:  # 서귀포 액티비티 요리 추천
+            elif intent[0] == 143:  # 서귀포 액티비티 요리 추천
                 answer = activity.filter(act_category__type="요리").values().order_by('?').first()
-            elif intent == 144:  # 서귀포 액티비티 요가 추천
+            elif intent[0] == 144:  # 서귀포 액티비티 요가 추천
                 answer = activity.filter(act_category__type="요가").values().order_by('?').first()
 
         else:
@@ -190,7 +200,7 @@ class ChatProcess:
         return answer
 
     def activity_answer(self, intent):
-        answer = self.activity_find(intent)
+        answer = self.activity_find(intent[0])
 
         if answer != None:
             answer_type = ActivityCategory.objects.get(id=answer['act_category_id']).type
@@ -198,9 +208,9 @@ class ChatProcess:
             return f"{answer_type}를 할 수 있는 \n {answer['name']}을 추천합니다. \n {answer['name']}의 영업시간은 \n {answer['start_business_time']} - {answer['end_business_time']} \n 입니다." \
                    f"\n 예상 체험 시간은 {answer['time']} 입니다. \n 위치는\n {answer['loc']} 입니다."
         else:
-            if 121 <= intent <= 132:
+            if 121 <= intent[0] <= 132:
                 return '제주에 추천할 체험 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
-            elif 133 <= intent <= 144:
+            elif 133 <= intent[0] <= 144:
                 return '서귀포에 추천할 체험 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
 
 
@@ -256,7 +266,8 @@ class ChatProcess:
 
     def restaurant_answer(self, intent):
 
-        answer = self.restaurant_find(intent)
+        answer = self.restaurant_find(intent[0])
+        a = intent[0]
 
         if answer != None:
             answer_type = RestaurantCategory.objects.get(id=answer['res_category_id']).type
@@ -264,19 +275,20 @@ class ChatProcess:
             return f"{answer_type}의 맛집으로, \n {answer['name']}을 추천합니다. \n {answer['name']}의 대표 메뉴는 \n {answer['recommend']} 입니다." \
                    f"\n 위치는\n {answer['loc']} 입니다."
         else:
-            if 145 <= intent <= 152:
+            if 145 <= a <= 152:
+                print(intent[0])
                 return '제주에 추천할 식당 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
-            elif 153 <= intent <= 160:
+            elif 153 <= a <= 160:
                 return '서귀포에 추천할 식당 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
 
     def shop_answer(self, intent):
-        if intent == 161:
+        if intent[0] == 161:
             answer = Shop.objects.filter(loc__contains='제주시').values().order_by('?').first()
             if answer != None:
                 return f"{answer['name']}을 방문해 보시는 건 어떠세요? \n {answer['name']}는 \n  {answer['explanation']} \n {answer['loc']}에 위치하고 있습니다. "
             else:
                 return '제주에 추천할 쇼핑지 정보가 없습니다. 이후, 업로드하여 더 나은 서비스로 찾아뵙겠습니다.'
-        elif intent == 162:
+        elif intent[0] == 162:
             answer = Shop.objects.filter(loc__contains='서귀포').values().order_by('?').first()
             if answer != None:
                 return f"{answer['name']}을 방문해 보시는 건 어떠세요? \n {answer['name']}는 \n  {answer['explanation']} \n {answer['loc']}에 위치하고 있습니다. "

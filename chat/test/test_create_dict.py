@@ -57,10 +57,10 @@ class CreateDict:
         word_index = pickle.load(f)
         f.close()
 
-        sent = "홈페이지 회원 탈퇴 하고 싶어요."
+        sent = "병신 강아지같은사람아"
 
         # 전처리 객체 생성
-        p = Preprocess(userdic='./data/user_dic.tsv')
+        p = Preprocess(userdic='./data/user_dic_2.tsv')
 
         # 형태소분석기 실행
         pos = p.pos(sent)
