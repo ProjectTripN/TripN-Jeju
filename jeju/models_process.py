@@ -469,7 +469,8 @@ class JejuProcess:
             s = ','.join(str(i) for i in except_shop_id)
 
 
-            today = datetime.date.today()
+            # today = datetime.date.today()
+            today = datetime.today()
             print(today)
             # today = f"{str(today)[0:4]}-{str(today)[5:7]}-{str(today)[8:10]}"
             dday = self.startday - today
@@ -547,7 +548,8 @@ class JejuProcess:
             # acc_data = Accommodation.objects.filter(id=acc).values()
             dic["acc"] = AccommodationSerializer(Accommodation.objects.filter(id=choice['acc']).values(), many=True).data
 
-            today = datetime.date.today()
+            # today = datetime.date.today()
+            today = datetime.today()
             # today = f"{str(today)[0:4]}-{str(today)[5:7]}-{str(today)[8:10]}"
             dday = self.startday - today
 

@@ -11,7 +11,7 @@ class ChatDbUploader:
         reader = Reader()
         self.printer = Printer()
         vo.context = 'chat/test/data/'
-        vo.fname = 'Q&A_L.csv'
+        vo.fname = 'train.csv'
         self.csvfile = reader.new_file(vo)
 
     def insert_data(self):

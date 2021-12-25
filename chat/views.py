@@ -46,34 +46,39 @@ def where_air(request):
 @parser_classes([JSONParser])
 def chat(request):
     print('############ 1 ##########')
+    print(request.data)
     a = request.data['value']
     print(a)
     print('############ 2 ##########')
     predict = TestChat().predict_test(a)
     print('############ 3 ##########')
-    cp = ChatProcess()
+    try:
+        cp = ChatProcess()
+        if predict[0] <= 106:  # F&A
+            answer = cp.q_answer(predict)
+            # return JsonResponse({'Product chat': f'{answer}'})
+        elif 107 <= predict[0] <= 112:  # weather
+            answer = cp.w_answer(predict)
+            # return JsonResponse({'Product chat': f'{answer}'})
+        elif 113 <= predict[0] <= 120:  # tourism
+            answer = cp.tourism_answer(predict)
+            # return JsonResponse({'Product chat': f'{answer}'})
+        elif 121 <= predict[0] <= 144:  # activity
+            answer = cp.activity_answer(predict)
+            # return JsonResponse({'Product chat': f'{answer}'})
+        elif 145 <= predict[0] <= 160:  # restaurant
+            answer = cp.restaurant_answer(predict)
+            # return JsonResponse({'Product chat': f'{answer}'})
+        elif 161 <= predict[0] <= 162:  # shop
+            answer = cp.shop_answer(predict)
+            # return JsonResponse({'Product chat': f'{answer}'})
 
-    if predict[0] <= 106:  # F&A
-        answer = cp.q_answer(predict)
-        # return JsonResponse({'Product chat': f'{answer}'})
-    elif 107 <= predict[0] <= 112:  # weather
-        answer = cp.w_answer(predict)
-        # return JsonResponse({'Product chat': f'{answer}'})
-    elif 113 <= predict[0] <= 120:  # tourism
-        answer = cp.tourism_answer(predict)
-        # return JsonResponse({'Product chat': f'{answer}'})
-    elif 121 <= predict[0] <= 144:  # activity
-        answer = cp.activity_answer(predict)
-        # return JsonResponse({'Product chat': f'{answer}'})
-    elif 145 <= predict[0] <= 160:  # restaurant
-        answer = cp.restaurant_answer(predict)
-        # return JsonResponse({'Product chat': f'{answer}'})
-    elif 161 <= predict[0] <= 162:  # shop
-        answer = cp.shop_answer(predict)
-        # return JsonResponse({'Product chat': f'{answer}'})
+        answer = {"chat": answer}
+        print('############ 4 try ##########')
 
-    answer = {"chat": answer}
-    print('############ 4 ##########')
+    except:
+        answer = {"chat": "다시 한번 말씀해 주세요"}
+        print('############ 4 except ##########')
 
     answer['queryid'] = request.data['key']
     print('############ 끝 ##########')

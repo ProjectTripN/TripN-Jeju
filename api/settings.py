@@ -125,11 +125,14 @@ DATABASES = {
         # 'USER': 'root',
         # 'PASSWORD': 'root',
         # 'HOST':'host.docker.internal',
-        # 'HOST': '127.0.0.1',
-        'NAME': 'tripN_mariadb',
-        'USER': 'admin',
-        'PASSWORD': get_secret("AWS_PASS"),
-        'HOST': get_secret("AWS_HOST"),
+        'NAME': 'tripN_jejudb',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        # 'NAME': 'tripN_mariadb',
+        # 'USER': 'admin',
+        # 'PASSWORD': get_secret("AWS_PASS"),
+        # 'HOST': get_secret("AWS_HOST"),
         'PORT': '3306'
     }
 }
@@ -156,13 +159,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-# LANGUAGE_CODE = 'ko'
+# LANGUAGE_CODE = 'en-us'
 #
-# TIME_ZONE = 'Asia/Seoul'
+# TIME_ZONE = 'UTC'
+
+LANGUAGE_CODE = 'ko'
+
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 

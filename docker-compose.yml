@@ -12,7 +12,7 @@
 #      - .:/backend-map
 #    expose:
 #      - "8000"
-version: '1'
+version: '5'
 services:
   db:
     image: mariadb:latest
@@ -36,7 +36,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: litecj702/tripn-jeju:v1
+    image: litecj702/tripn-jeju:v5
     container_name: tripn-jeju
     command: sh -c "dockerize -wait tcp://host.docker.internal:3306 -timeout 20s && python manage.py runserver 0.0.0.0:8000"
     restart: always
