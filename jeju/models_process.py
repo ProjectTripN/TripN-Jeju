@@ -33,11 +33,15 @@ class JejuProcess:
         self.endday = datetime.strptime(option['date2'], '%Y-%m-%d')
         self.days = (self.endday - self.startday).days + 1
         self.people = option['Number']
-        self.user = User.objects.filter(id = option['user']).values()[0]
-        self.mbti = self.user['mbti']
-        self.mbti_list = self.user['mbti_list']
+        self.user_id = option['user']
+        # self.user = User.objects.filter(id = option['user']).values()[0]
+        self.mbti_list = option['mbti']
         self.month = self.startday.month
         self.relationship = option['relationship']
+
+    def count_day(self):
+        day = self.days
+        return day
 
     def process(self):
         mbti = self.mbti_set()
@@ -124,7 +128,7 @@ class JejuProcess:
     def accommodation(self, mbti):
         # self.mbti_list[3] = q11 숙소를 구할 때
         ls = []
-        if self.mbti_list[3] == 'e' and self.relationship != '가족' or '중요한 분':
+        if self.mbti_list[0] == 'e' and self.relationship != '가족' or '중요한 분':
             guesthouse = Accommodation.objects.filter(acc_category_id=3)
             [ls.append(i['id']) for i in guesthouse.values('id')]
             acc = random.sample(ls, 3)  # 3개
@@ -133,7 +137,7 @@ class JejuProcess:
             return serializer
 
         elif self.relationship == '가족' or '중요한 분':
-            if self.mbti_list[3] == 'i' and self.people >= 4:
+            if self.mbti_list[0] == 'i' and self.people >= 4:
                 pull = Accommodation.objects.filter(acc_category_id=1)
                 [ls.append(i['id']) for i in pull.values('id')]
                 acc = random.sample(ls, 3)  # 3개
@@ -450,9 +454,9 @@ class JejuProcess:
             except_tourism_id.remove(0)
             except_shop_id.remove(0)
 
-            u = User()
-            user = User.objects.all().filter(id=self.user['id']).values()[0]
-            u.id = user['id']
+            # u = User()
+            # user = User.objects.all().filter(id=self.user['id']).values()[0]
+            # u.id = user['id']
             c = Category()
             category = Category.objects.all().filter(category='recommend').values()[0]
             c.id = category['id']
@@ -475,7 +479,7 @@ class JejuProcess:
             # today = f"{str(today)[0:4]}-{str(today)[5:7]}-{str(today)[8:10]}"
             dday = self.startday - today
 
-            save_day = JejuSchedule.objects.create(user=u, startday=self.startday, endday=self.endday, day=self.days, startloc=self.startloc, people=self.people, relationship=self.relationship, category=c,
+            save_day = JejuSchedule.objects.create(user=self.user_id, startday=self.startday, endday=self.endday, day=self.days, startloc=self.startloc, people=self.people, relationship=self.relationship, category=c,
                                                    plane=p, acc=ac, activity=a, restaurant=r, tourism=t, shop=s, schedule=f"{dic}", dday=dday)
             print(f' 1 >>>> {save_day}')
 
@@ -483,7 +487,7 @@ class JejuProcess:
             endday = {"endday": self.endday}
             days = {"days": self.days}
             people = {"people": self.people}
-            user = {"user": self.user['id']}
+            user = {"user": self.user_id}
             relationship = {"relationship": self.relationship}
 
             return dic, plane, choice['acc'], activity, except_restaurant_id, except_tourism_id, except_shop_id, startday, endday, days, people, user, relationship
@@ -524,9 +528,9 @@ class JejuProcess:
             except_tourism_id.remove(0)
             except_shop_id.remove(0)
 
-            u = User()
-            user = User.objects.all().filter(id=self.user['id']).values()[0]
-            u.id = user['id']
+            # u = User()
+            # user = User.objects.all().filter(id=self.user['id']).values()[0]
+            # u.id = user['id']
             c = Category()
             category = Category.objects.all().filter(category='recommend').values()[0]
             c.id = category['id']
@@ -555,7 +559,7 @@ class JejuProcess:
 
             # schedule_dic = {"plane" : plane_data} + {"acc": acc_data} + dic
 
-            save_day = JejuSchedule.objects.create(user=u, startday=self.startday, endday=self.endday, day=self.days, startloc=self.startloc,
+            save_day = JejuSchedule.objects.create(user=self.user_id, startday=self.startday, endday=self.endday, day=self.days, startloc=self.startloc,
                                                    people=self.people, relationship=self.relationship, category=c,
                                                    plane=p, acc=ac, activity=a, olle=o, restaurant=r, tourism=t, shop=s, schedule=f"{dic}", dday=dday)
             print(f' 1 >>>> {save_day}')
@@ -564,7 +568,7 @@ class JejuProcess:
             endday = {"endday": self.endday}
             days = {"days": self.days}
             people = {"people": self.people}
-            user = {"user": self.user['id']}
+            user = {"user": self.user_id}
             relationship = {"relationship": self.relationship}
 
             return dic, plane, choice['acc'], activity, except_restaurant_id, except_tourism_id, except_shop_id, startday, endday, days, people, user, relationship, olle
