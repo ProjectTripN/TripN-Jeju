@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000']
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://192.168.0.35:3000', ]
 CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE = [

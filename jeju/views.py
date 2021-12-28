@@ -23,10 +23,10 @@ def recommendation(request):
     mbti = jeju.mbti_set()
     day = {"day": jeju.count_day()}
     plane = jeju.plane()
-    departure_plane = plane[0]
-    arrival_plane = plane[1]
-    accommodation = jeju.accommodation(mbti)
-    activity = jeju.activity(mbti)
+    departure_plane = plane[0].data
+    arrival_plane = plane[1].data
+    accommodation = jeju.accommodation(mbti).data
+    activity = jeju.activity(mbti).data
     # if jeju.olle() == 0:
     #     return JsonResponse(data=(departure_plane, arrival_plane, accommodation, day, activity), safe=False)
     # else:
@@ -41,19 +41,18 @@ def recommendation(request):
     #         olle = jeju.olle()[0]
     #         return JsonResponse(data=(departure_plane, arrival_plane, accommodation, day, activity, olle, oleum), safe=False)
     if jeju.olle() == 0:
-        return JsonResponse(data=({"departure_plane": departure_plane.data}, {"arrival_plane": arrival_plane.data},
-                                  {"accommodation": accommodation.data}, day, {"activity": activity.data}), safe=False)
+        return JsonResponse(data=(day, departure_plane, arrival_plane, accommodation, activity), safe=False)
     else:
         if jeju.olle()[0] == None :
-            oleum = jeju.olle()[1]
-            return JsonResponse(data=(departure_plane.data, arrival_plane.data, accommodation.data, day, activity.data, oleum.data), safe=False)
+            oleum = jeju.olle()[1].data
+            return JsonResponse(data=(day, departure_plane, arrival_plane, accommodation, activity, oleum), safe=False)
         if jeju.olle()[1] == None :
-            olle = jeju.olle()[0]
-            return JsonResponse(data=(departure_plane.data, arrival_plane.data, accommodation.data, day, activity.data, olle.data), safe=False)
+            olle = jeju.olle()[0].data
+            return JsonResponse(data=(day, departure_plane, arrival_plane, accommodation, activity, olle), safe=False)
         else:
-            oleum = jeju.olle()[1]
-            olle = jeju.olle()[0]
-            return JsonResponse(data=(departure_plane.data, arrival_plane.data, accommodation.data, day, activity.data, olle.data, oleum.data), safe=False)
+            oleum = jeju.olle()[1].data
+            olle = [jeju.olle()[0].data, jeju.olle()[1].data]
+            return JsonResponse(data=(day, departure_plane, arrival_plane, accommodation, activity, olle), safe=False)
 
 
 @api_view(['POST'])
@@ -78,7 +77,7 @@ def save_days(request):
     days = jeju.process_save_days(request.data)
     plane_data = Plane.objects.filter(id__in=days[1]).values()
     plane_data = PlaneSerializer(plane_data, many=True).data
-    plane = {"plane" : plane_data}
+    plane = {"plane": plane_data}
     acc_data = Accommodation.objects.filter(id=days[2]).values()
     acc_data = AccommodationSerializer(acc_data, many=True).data
     acc = {"acc": acc_data}  # acc
@@ -100,16 +99,24 @@ def save_days(request):
 
     if len(days) == 14:
         olle = {"olle" : days[13]}
-        js_data = JejuSchedule.objects.filter(user=days[11], startday=days[7], endday=days[8]).values()
+        js_data = JejuSchedule.objects.filter(user=days[11]['user'], startday=days[7]['startday'], endday=days[8]['endday']).values()
         js = JejuSerializer(js_data, many=True).data
         return JsonResponse(data=(js, days[0], plane, acc, activity, olle, restaurant, tourism, shop, startday, endday, day, people, user, relationship), safe=False)
 
 @api_view(['GET', 'POST'])
 @parser_classes([JSONParser])
 def list_by_user(request, user_id):
-    jejuSchedule = JejuSchedule.objects.filter(user_id=user_id)
+    jejuSchedule = JejuSchedule.objects.all()
     serializer = JejuSerializer(jejuSchedule, many=True)
     return JsonResponse(data = serializer.data, safe=False)
+
+@api_view(['GET', 'POST'])
+@parser_classes([JSONParser])
+def list_all(request):
+    jejuSchedule = JejuSchedule.objects.filter()
+    serializer = JejuSerializer(jejuSchedule, many=True)
+    return JsonResponse(data = serializer.data, safe=False)
+
 
 
 @api_view(['GET', 'POST'])

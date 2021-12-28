@@ -30,7 +30,7 @@ class JejuSchedule(models.Model):
     plane = ListCharField(base_field=IntegerField(), size=5, max_length=100)  # plane
     acc = models.ForeignKey(Accommodation, max_length=255, on_delete=models.CASCADE)  # acc
     activity = ListCharField(base_field=IntegerField(), size=50, null=True, max_length=100)  # activity
-    olle = ListCharField(base_field=IntegerField(), size=50, null=True, max_length=100)  # olle
+    olle = ListTextField(base_field=CharField(max_length=255), size=50, null=True)  # olle
     restaurant = ListCharField(base_field=IntegerField(), size=100, null=True, max_length=100)  # restaurant
     tourism = ListCharField(base_field=IntegerField(), size=100, null=True, max_length=100)  # tourism
     shop = ListCharField(base_field=IntegerField(), size=50, null=True, max_length=100)  # shop
