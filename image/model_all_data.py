@@ -1,5 +1,6 @@
 import os
 
+from chat.models import Chatbot
 from jeju_data.models import TourismCategory, Tourism, ActivityCategory, Activity, PlaneCategory, Plane, \
     RestaurantCategory, Restaurant, AccommodationCategory, Accommodation, Olle, Shop
 
@@ -30,6 +31,7 @@ class AllDbUploader:
         jejuolle_csv = 'jeju_data/data/jejuolle.csv'
         persons_csv = 'user/data/persons.csv'
         user_csv = 'user/data/user.csv'
+        chat_csv = 'chat/test/data/train.csv'
 
         print('################ 2 category ################')
         self.insert_category(category_csv)
@@ -57,6 +59,8 @@ class AllDbUploader:
         self.insert_table_shop(shop_csv)
         print('################ 6 person ################')
         self.insert_category_person(persons_csv)
+        print('################ 7 chat ################')
+        self.insert_chatDB(chat_csv)
         print('################ 끝   끝   끝 ################')
 
 
@@ -146,7 +150,8 @@ class AllDbUploader:
                                                          lat=geo['lat'],
                                                          log=geo['long'],
                                                          tour_category=c,
-                                                         image=i)
+                                                         image=i,
+                                                         url=row['url'])
                         print(f' Tourism >>>> {tourism}')
         print('Tourism DATA UPLOADED SUCCESSFULY!')
 
@@ -187,7 +192,8 @@ class AllDbUploader:
                                                            lat=geo['lat'],
                                                            log=geo['long'],
                                                            act_category=c,
-                                                           image=i)
+                                                           image=i,
+                                                           url=row['url'])
                         print(f' Activity >>>> {activity}')
         print('Activity DATA UPLOADED SUCCESSFULY!')
 
@@ -254,7 +260,8 @@ class AllDbUploader:
                                                                res_category=c,
                                                                lat=geo['lat'],
                                                                log=geo['long'],
-                                                               image=i)
+                                                               image=i,
+                                                               url=row['url'])
                         print(f' Restaurant >>>> {restaurant}')
         print('Restaurant DATA UPLOADED SUCCESSFULY!')
 
@@ -292,7 +299,8 @@ class AllDbUploader:
                                                                      lat=geo['lat'],
                                                                      log=geo['long'],
                                                                      acc_category=c,
-                                                                     image=i,)
+                                                                     image=i,
+                                                                     url=row['url'])
                         print(f' Accommodation >>>> {accommodation}')
         print('Accommodation DATA UPLOADED SUCCESSFULY!')
 
@@ -319,7 +327,8 @@ class AllDbUploader:
                                                    log=geo['long'],
                                                    explanation=row['explanation'],
                                                    category=c,
-                                                   image=i)
+                                                   image=i,
+                                                   url=row['illustration'])
                         print(f' 1 >>>> {olle}')
         print('Olle DATA UPLOADED SUCCESSFULY!')
 
@@ -344,9 +353,26 @@ class AllDbUploader:
                                                    explanation=row['explanation'],
                                                    recommend=row['category'],
                                                    category=c,
-                                                   image=i,)
+                                                   image=i,
+                                                   url=row['url'])
                         print(f' Shop >>>> {shop}')
         print('Shop DATA UPLOADED SUCCESSFULY!')
+
+    def insert_chatDB(self, csvt):
+        with open(f'{csvt}', newline='', encoding='utf8') as f:
+            data_reader = csv.DictReader(f)
+            for row in data_reader:
+                if not Chatbot.objects.filter(answer=row['answer']).exists():
+                    chat = Chatbot.objects.create(answer=row['answer'],
+                                                  category=row['category'],
+                                                  detailedCategory=row['detailedCategory'],
+                                                  intents=row['intents'],
+                                                  intentNumber=row['intent'],
+                                                  label=row['label'],)
+                    print(f'chat : {chat}')
+
+        print('Chat DATA UPLOADED SUCCESSFULY!')
+
 
     def trans_geo(self, addr):
         url = 'https://dapi.kakao.com/v2/local/search/address.json?query=' + addr

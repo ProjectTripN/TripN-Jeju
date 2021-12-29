@@ -98,7 +98,8 @@ class DbUploader():
                                                          lat=geo['lat'],
                                                          log=geo['long'],
                                                          tour_category=c,
-                                                         image=i,)
+                                                         image=i,
+                                                         url=row['url'])
                         print(f' 1 >>>> {tourism}')
         print('Tourism DATA UPLOADED SUCCESSFULY!')
 
@@ -154,7 +155,8 @@ class DbUploader():
                                                            lat=geo['lat'],
                                                            log=geo['long'],
                                                            act_category=c,
-                                                           image=i,)
+                                                           image=i,
+                                                           url=row['url'])
                         print(f' 1 >>>> {activity}')
         print('Activity DATA UPLOADED SUCCESSFULY!')
 
@@ -189,7 +191,8 @@ class DbUploader():
                                                    explanation=row['explanation'],
                                                    recommend=row['category'],
                                                    category=c,
-                                                   image=i,)
+                                                   image=i,
+                                                   url=row['url'])
                         print(f' 1 >>>> {shop}')
         print('Shop DATA UPLOADED SUCCESSFULY!')
 
@@ -271,7 +274,8 @@ class DbUploader():
                                                                res_category=c,
                                                                lat=geo['lat'],
                                                                log=geo['long'],
-                                                               image=i,)
+                                                               image=i,
+                                                               url=row['url'])
                         print(f' 1 >>>> {restaurant}')
         print('Restaurant DATA UPLOADED SUCCESSFULY!')
 
@@ -321,7 +325,8 @@ class DbUploader():
                                                                      lat=geo['lat'],
                                                                      log=geo['long'],
                                                                      acc_category=c,
-                                                                     image=i,)
+                                                                     image=i,
+                                                                     url=row['url'])
                         print(f' 1 >>>> {accommodation}')
         print('Accommodation DATA UPLOADED SUCCESSFULY!')
 
@@ -360,7 +365,8 @@ class DbUploader():
                                                    log=geo['long'],
                                                    explanation=row['explanation'],
                                                    category=c,
-                                                   image=i)
+                                                   image=i,
+                                                   url=row['illustration'])
                         print(f' 1 >>>> {olle}')
         print('Olle DATA UPLOADED SUCCESSFULY!')
 

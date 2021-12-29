@@ -31,6 +31,7 @@ class Tourism(models.Model):
     lat = models.FloatField(null=True)  # 위도
     log = models.FloatField(null=True)  # 경도
     tour_category = models.ForeignKey(TourismCategory, on_delete=models.CASCADE, null=True)  # category
+    url = models.URLField(null=True)
     # tour_business_close_time = models.TimeField(null=True)
 
     class Meta:
@@ -69,6 +70,7 @@ class Activity(models.Model):
     image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True)
     lat = models.FloatField(null=True)  # 위도
     log = models.FloatField(null=True)  # 경도
+    url = models.URLField(null=True)
 
     class Meta:
         db_table = "activity"
@@ -134,6 +136,7 @@ class Shop(models.Model):
     image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True)
     lat = models.FloatField(null=True)  # 위도
     log = models.FloatField(null=True)  # 경도
+    url = models.URLField(null=True)
 
     class Meta:
         db_table = "shop"
@@ -166,6 +169,7 @@ class Restaurant(models.Model):
     image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True)  # photo
     lat = models.FloatField(null=True)  # 위도
     log = models.FloatField(null=True)  # 경도
+    url = models.URLField(null=True)
 
     class Meta:
         db_table = "restaurant"
@@ -202,6 +206,7 @@ class Accommodation(models.Model):
     standard_number = models.IntegerField()  # 숙박인원
     lat = models.FloatField(null=True)  # 위도
     log = models.FloatField(null=True)  # 경도
+    url = models.URLField(null=True)
 
     class Meta:
         db_table = "accommodation"
@@ -223,6 +228,7 @@ class Olle(models.Model):
     lat = models.FloatField(null=True)  # 위도
     log = models.FloatField(null=True)  # 경도
     image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True)
+    url = models.URLField(null=True)
 
     class Meta:
         db_table = "olle"

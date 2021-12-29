@@ -24,6 +24,7 @@ class TourismSerializer(serializers.Serializer):
     image_id = serializers.CharField()
     lat = serializers.CharField()
     log = serializers.CharField()
+    url = serializers.URLField()
 
     class Meta:
         model = tourism
@@ -43,6 +44,7 @@ class ActivitySerializer(serializers.Serializer):
     lat = serializers.CharField()
     log = serializers.CharField()
     image_id = serializers.CharField()
+    url = serializers.URLField()
 
     class Meta:
         model = activity
@@ -73,6 +75,7 @@ class ShopSerializer(serializers.Serializer):
     image_id = serializers.CharField()
     lat = serializers.CharField()
     log = serializers.CharField()
+    url = serializers.URLField()
 
     class Meta:
         model = shop
@@ -89,6 +92,7 @@ class RestaurantSerializer(serializers.Serializer):
     image_id = serializers.CharField()
     lat = serializers.CharField()
     log = serializers.CharField()
+    url = serializers.URLField()
 
     class Meta:
         model = restaurant
@@ -107,6 +111,7 @@ class AccommodationSerializer(serializers.Serializer):
     image_id = serializers.CharField()
     lat = serializers.CharField()
     log = serializers.CharField()
+    url = serializers.URLField()
 
     class Meta:
         model = accommodation
@@ -126,6 +131,7 @@ class OlleSerializer(serializers.Serializer):
     image_id = serializers.CharField()
     lat = serializers.CharField()
     log = serializers.CharField()
+    url = serializers.URLField()
 
     class Meta:
         model = olle

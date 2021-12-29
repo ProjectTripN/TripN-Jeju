@@ -38,7 +38,8 @@ services:
       dockerfile: Dockerfile
     image: litecj702/tripn-jeju:v5
     container_name: tripn-jeju
-    command: sh -c "dockerize -wait tcp://host.docker.internal:3306 -timeout 20s && python manage.py runserver 0.0.0.0:8000"
+#    command: sh -c "dockerize -wait tcp://host.docker.internal:3306 -timeout 20s && python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "dockerize -wait tcp://host.docker.internal:3306 -timeout 20s && python manage.py migrate && python manage.py runserver 0.0.0.0:8001"
     restart: always
     ports:
       - "8000:8000"

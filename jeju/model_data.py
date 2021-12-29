@@ -5,7 +5,7 @@ import django
 django.setup()
 import datetime
 
-from jeju.models import JejuSchedule
+from jeju.models import JejuScheduleDetail
 
 
 class DbUploader():
@@ -14,12 +14,12 @@ class DbUploader():
     def updata_jeju_dday(self):
         today = datetime.date.today()
         print(today)
-        j = JejuSchedule.objects.all().values()
+        j = JejuScheduleDetail.objects.all().values()
 
         for row in j:
             print(row['id'])
             print(row['dday'])
-            jejuSchedule = JejuSchedule.objects.filter(id=row['id']).update(dday=row['startday']-today)
+            jejuSchedule = JejuScheduleDetail.objects.filter(id=row['id']).update(dday=row['startday']-today)
             print(jejuSchedule)
             print("===========================")
 
