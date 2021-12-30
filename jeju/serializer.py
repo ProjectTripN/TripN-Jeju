@@ -60,7 +60,7 @@ class JejuDSerializer(serializers.Serializer):
     restaurant = serializers.ListField()
     tourism = serializers.ListField()
     shop = serializers.ListField()
-    schedule = serializers.CharField()
+    schedule = serializers.JSONField()
     dday = serializers.JSONField()
 
 

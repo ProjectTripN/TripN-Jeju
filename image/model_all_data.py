@@ -1,6 +1,7 @@
 import os
 
 from chat.models import Chatbot
+from jeju.models import JejuScheduleDetail
 from jeju_data.models import TourismCategory, Tourism, ActivityCategory, Activity, PlaneCategory, Plane, \
     RestaurantCategory, Restaurant, AccommodationCategory, Accommodation, Olle, Shop
 
@@ -32,35 +33,38 @@ class AllDbUploader:
         persons_csv = 'user/data/persons.csv'
         user_csv = 'user/data/user.csv'
         chat_csv = 'chat/test/data/train.csv'
+        schedule_csv = 'jeju/data/jeju_schedule_detail.csv'
 
         print('################ 2 category ################')
-        self.insert_category(category_csv)
+        # self.insert_category(category_csv)
         print('################ 3 image ################')
-        self.insert_image_url(restaurant_csv, 'restaurant', 'name')
-        self.insert_image_url(tourism_csv, 'tourism', 'name')
-        self.insert_image_url(activity_csv, 'activity', 'name')
-        self.insert_image_url(shop_csv, 'shop', 'name')
-        self.insert_image_url(accommodation_csv, 'accommodation', 'name')
-        self.insert_image_olle_url(jejuolle_csv, 'olle', 'course-name')
-        self.insert_image_url(user_csv, 'user', 'gender')
+        # self.insert_image_url(restaurant_csv, 'restaurant', 'name')
+        # self.insert_image_url(tourism_csv, 'tourism', 'name')
+        # self.insert_image_url(activity_csv, 'activity', 'name')
+        # self.insert_image_url(shop_csv, 'shop', 'name')
+        # self.insert_image_url(accommodation_csv, 'accommodation', 'name')
+        # self.insert_image_olle_url(jejuolle_csv, 'olle', 'course-name')
+        # self.insert_image_url(user_csv, 'user', 'gender')
         print('################  4 jeju_category_data  ################')
-        self.insert_category_tourism(tourism_csv)
-        self.insert_category_activity(activity_csv)
-        self.insert_category_plane(plane_csv)
-        self.insert_category_restaurant(restaurant_csv)
-        self.insert_category_accommodation(accommodation_csv)
+        # self.insert_category_tourism(tourism_csv)
+        # self.insert_category_activity(activity_csv)
+        # self.insert_category_plane(plane_csv)
+        # self.insert_category_restaurant(restaurant_csv)
+        # self.insert_category_accommodation(accommodation_csv)
         print('################  5 jeju_data  ################')
-        self.insert_table_tourism(tourism_csv)
-        self.insert_table_activity(activity_csv)
-        self.insert_table_plane(plane_csv)
-        self.insert_table_restaurant(restaurant_csv)
-        self.insert_table_accommodation(accommodation_csv)
-        self.insert_table_olle(jejuolle_csv)
-        self.insert_table_shop(shop_csv)
+        # self.insert_table_tourism(tourism_csv)
+        # self.insert_table_activity(activity_csv)
+        # self.insert_table_plane(plane_csv)
+        # self.insert_table_restaurant(restaurant_csv)
+        # self.insert_table_accommodation(accommodation_csv)
+        # self.insert_table_olle(jejuolle_csv)
+        # self.insert_table_shop(shop_csv)
         print('################ 6 person ################')
-        self.insert_category_person(persons_csv)
+        # self.insert_category_person(persons_csv)
         print('################ 7 chat ################')
-        self.insert_chatDB(chat_csv)
+        # self.insert_chatDB(chat_csv)
+        print('################ 8 schedule ################')
+        self.insert_schedule(schedule_csv)
         print('################ 끝   끝   끝 ################')
 
 
@@ -372,6 +376,28 @@ class AllDbUploader:
                     print(f'chat : {chat}')
 
         print('Chat DATA UPLOADED SUCCESSFULY!')
+
+    def insert_schedule(self, csvt):
+        with open(f'{csvt}', newline='', encoding='utf8') as f:
+            data_reader = csv.DictReader(f)
+            for row in data_reader:
+                c = Category()
+                category = Category.objects.all().filter(category='recommend').values()[0]
+                c.id = category['id']
+                ac = Accommodation()
+                accommodation = Accommodation.objects.all().filter(id=row['acc']).values()[0]
+                ac.id = accommodation['id']
+                if not JejuScheduleDetail.objects.filter(id=row['id'], user=row['user'], reg_date=row['reg_date']).exists():  # 동일한 값 있으면 넘어가
+                    jeju_detail = JejuScheduleDetail.objects.create(id=row['id'], user=row['user'], startday=row['startday'],
+                                                                    endday=row['endday'], day=row['day'], reg_date=row['reg_date'],
+                                                                    startloc=row['startloc'], people=row['people'], relationship=row['relationship'],
+                                                                    category=c, plane=row['plane'], plane_detail=row['plane_detail'],
+                                                                    acc=ac, acc_detail=row['acc_detail'], activity=row['activity'],
+                                                                    activity_name=row['activity_name'], olle=row['olle'], restaurant=row['restaurant'],
+                                                                    tourism=row['tourism'], shop=row['shop'], dday=row['dday'], schedule=row['schedule'])
+
+                    print(f' 1 >>>> {jeju_detail}')
+        print('Tourism DATA UPLOADED SUCCESSFULY!')
 
 
     def trans_geo(self, addr):

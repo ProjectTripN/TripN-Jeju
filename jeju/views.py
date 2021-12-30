@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from icecream import ic
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view, parser_classes
+import csv
 
 # Create your views here.
 from image.models import Category
@@ -15,7 +16,7 @@ from jeju.models_process import JejuProcess
 from jeju.serializer import JejuDSerializer
 from jeju_data.models import Plane, PlaneCategory, Accommodation, Activity
 from jeju_data.serializer import PlaneSerializer, AccommodationSerializer
-from user.models import User
+# from user.models import User
 
 @api_view(['POST'])
 @parser_classes([JSONParser])
@@ -73,6 +74,40 @@ def days(request):
 
     return JsonResponse(data=(plane, acc, activity, days[0]), safe=False)
 
+
+
+
+
+@api_view(['PUT'])
+@parser_classes([JSONParser])
+def down(request):
+    with open('jeju/data/jeju_schedule_detail.csv', 'w', newline='', encoding='utf8') as csvfile:
+        fieldnames = ['id', 'user', 'startday', 'endday', 'day', 'reg_date', 'startloc', 'people', 'relationship',
+                      'category', 'plane',
+                      'plane_detail', 'acc', 'acc_detail', 'activity', 'activity_name', 'olle', 'restaurant', 'tourism',
+                      'shop', 'dday', 'schedule']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+        # schedule = JejuScheduleDetail.objects.all()
+        # jds = JejuDSerializer(schedule).data
+
+        for schedule in JejuScheduleDetail.objects.all():
+            writer.writerow(
+                {'id': schedule.id, 'user': schedule.user, 'startday': schedule.startday, 'endday': schedule.endday,
+                 'day': schedule.day, 'reg_date': schedule.reg_date,
+                 'startloc': schedule.startloc, 'people': schedule.people, 'relationship': schedule.relationship,
+                 'category': schedule.category, 'plane': schedule.plane,
+                 'plane_detail': schedule.plane_detail, 'acc': schedule.acc, 'acc_detail': schedule.acc_detail,
+                 'activity': schedule.activity, 'activity_name': schedule.activity_name,
+                 'olle': schedule.olle, 'restaurant': schedule.restaurant, 'tourism': schedule.tourism,
+                 'shop': schedule.shop, 'dday': schedule.dday, 'schedule': schedule.schedule})
+
+    print('Schedule DATA DOWNLOADED SUCCESSFULY!')
+    return JsonResponse({"DbUploader:down": "!!SUCCESSFULY!!"})
+
+
+
 # @api_view(['POST'])
 # @parser_classes([JSONParser])
 # def days_d(request):
@@ -126,9 +161,9 @@ def save_days(request):
     ac.id = accommodation['id']
     dday = datetime.datetime.strptime(check['date1'], '%Y-%m-%d') - datetime.datetime.today()
     jeju_detail = JejuScheduleDetail.objects.create(
-        user=check['user'], id=count.count() + 1, startday=datetime.datetime.strptime(check['date1'], '%Y-%m-%d'),
+        user=check['user'], id=count.count()+3, startday=datetime.datetime.strptime(check['date1'], '%Y-%m-%d'),
         endday=datetime.datetime.strptime(check['date2'], '%Y-%m-%d'),
-        day=jeju.count_day(), reg_date=(datetime.datetime.strptime(check['date1'], '%Y-%m-%d'))-datetime.timedelta(days=random.randrange(30)),
+        day=jeju.count_day(), reg_date=(datetime.datetime.strptime(check['date1'], '%Y-%m-%d'))-datetime.timedelta(days=random.randrange(20)),
         startloc=check['start'], people=check['Number'], relationship=check['relationship'],
         category=c, plane=check['plane'], plane_detail=plane_data, acc=ac, acc_detail=acc_data,
         activity=check['activty'], activity_name=activity, olle=check['olle'], restaurant=days[3], tourism=days[4], shop=days[5], dday=dday, schedule=days[0]
@@ -201,7 +236,7 @@ def list_by_user_d(request, user):
 @api_view(['GET', 'POST'])
 @parser_classes([JSONParser])
 def list_all(request):
-    jejuSchedule = JejuScheduleDetail.objects.filter()
+    jejuSchedule = JejuScheduleDetail.objects.all()
     serializer = JejuDSerializer(jejuSchedule, many=True)
     return JsonResponse(data = serializer.data, safe=False)
 

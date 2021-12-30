@@ -8,7 +8,7 @@ from datetime import datetime
 import csv
 import sys
 from common.models import ValueObject, Reader, Printer
-from user.models import Person, User
+from user.models import Person
 
 # system setup
 #
@@ -88,20 +88,20 @@ class DbUploader():
                 image = Image.objects.all().filter(name=row['gender']).values()[0]
                 i.id = image['id']
 
-                if not User.objects.filter(name=row['name']).exists():  # 동일한 값 있으면 넘어가
+                # if not User.objects.filter(name=row['name']).exists():  # 동일한 값 있으면 넘어가
 
-                        user = User.objects.create(username=row['username'],
-                                                   password=row['password'],
-                                                   name=row['name'],
-                                                   email=row['email'],
-                                                   birth=row['birth'],
-                                                   gender=row['gender'],
-                                                   mbti=row['mbti'],
-                                                   mbti_list=row['mbti_list'],
-                                                   card_number=row['card_number'],
-                                                   card_company=row['card_company'],
-                                                   person_category=cp,
-                                                   category=c,
-                                                   image=i,)
-                        print(f' 1 >>>> {user}')
+                #         user = User.objects.create(username=row['username'],
+                #                                    password=row['password'],
+                #                                    name=row['name'],
+                #                                   email=row['email'],
+                #                                    birth=row['birth'],
+                #                                    gender=row['gender'],
+                #                                    mbti=row['mbti'],
+                #                                    mbti_list=row['mbti_list'],
+                #                                    card_number=row['card_number'],
+                #                                    card_company=row['card_company'],
+                #                                    person_category=cp,
+                #                                    category=c,
+                #                                    image=i,)
+                #         print(f' 1 >>>> {user}')
         print('User DATA UPLOADED SUCCESSFULY!')

@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view, parser_classes
 
 # Create your views here.
 from jeju_data.models import Plane, PlaneCategory
-from user.models import User
+
 
 
 @api_view(['POST'])
@@ -49,12 +49,12 @@ def test_option(request):
     endday = datetime.strptime(option['date2'], '%Y-%m-%d')
     days = endday - startday
     people = option['Number']
-    user = User.objects.filter(id=option['user']).values()[0]
-    mbti = user['mbti']
-    mbti_list = user['mbti_list']
-    month = startday.month
-    relationship = option['relationship']
-    return startday, startloc, endday, days, people, user, mbti, mbti_list, month, relationship
+    # user = User.objects.filter(id=option['user']).values()[0]
+    # mbti = user['mbti']
+    # mbti_list = user['mbti_list']
+    # month = startday.month
+    # relationship = option['relationship']
+    # return startday, startloc, endday, days, people, user, mbti, mbti_list, month, relationship
 
 @api_view(['GET'])
 @parser_classes([JSONParser])
@@ -74,7 +74,7 @@ def test_plane_set(request):
     days = endday - startday
     people = option['Number']
     user = option['user']
-    mbti = User.objects.get(id=option['user'])
+    # mbti = User.objects.get(id=option['user'])
     month = startday.month
     relationship = option['relationship']
 

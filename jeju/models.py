@@ -10,7 +10,7 @@ from django.db.models import IntegerField, CharField
 from django_mysql.models import ListCharField, ListTextField
 from image.models import Category
 from jeju_data.models import Accommodation
-from user.models import User
+
 
 
 # class JejuSchedule(models.Model):

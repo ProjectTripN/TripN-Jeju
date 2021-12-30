@@ -21,7 +21,7 @@ django.setup()
 from jeju_data.serializer import RestaurantSerializer, PlaneSerializer, AccommodationSerializer, ActivitySerializer, \
     OlleSerializer, ShopSerializer, TourismSerializer
 from jeju_data.models import Plane, PlaneCategory, Accommodation, Restaurant, Olle, Activity, Tourism, Shop
-from user.models import User
+# from user.models import User
 from jeju.models import JejuScheduleDetail
 
 
