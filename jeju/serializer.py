@@ -7,7 +7,7 @@ from jeju.models import JejuScheduleDetail as jeju
 #
 #
 #     id = serializers.CharField()
-#     user = serializers.CharField()
+#     person = serializers.CharField()
 #     reg_date = serializers.DateTimeField()
 #     startday = serializers.DateField()
 #     endday = serializers.DateField()

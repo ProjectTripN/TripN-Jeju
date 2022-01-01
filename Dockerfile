@@ -1,6 +1,6 @@
 FROM python:3.8
 
-WORKDIR /tripn-jeju
+WORKDIR /TripN_jeju
 
 COPY . .
 COPY requirements.txt requirements.txt

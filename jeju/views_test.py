@@ -31,15 +31,15 @@ def test_process(request):
 
 
 def test_option(request):
-    # option = {"date1": '2021-05-21', "date2": '2021-06-19', 'start': 'gmp', 'Number': 4, 'user': 15, 'relationship': 'family' }
+    # option = {"date1": '2021-05-21', "date2": '2021-06-19', 'start': 'gmp', 'Number': 4, 'person': 15, 'relationship': 'family' }
 
     # startday = datetime.strptime(option.data['date1'], '%Y-%m-%d')
     # startloc = option.data['start']
     # endday = datetime.strptime(option.data['date2'], '%Y-%m-%d')
     # days = endday - startday
     # people = option.data['Number']
-    # user = option.data['user']
-    # mbti = User.objects.get(id=option.data['user'])
+    # person = option.data['person']
+    # mbti = User.objects.get(id=option.data['person'])
     # month = option.data['date'][2]
     # relationship = option.data['relationship']
 
@@ -49,12 +49,12 @@ def test_option(request):
     endday = datetime.strptime(option['date2'], '%Y-%m-%d')
     days = endday - startday
     people = option['Number']
-    # user = User.objects.filter(id=option['user']).values()[0]
-    # mbti = user['mbti']
-    # mbti_list = user['mbti_list']
+    # person = User.objects.filter(id=option['person']).values()[0]
+    # mbti = person['mbti']
+    # mbti_list = person['mbti_list']
     # month = startday.month
     # relationship = option['relationship']
-    # return startday, startloc, endday, days, people, user, mbti, mbti_list, month, relationship
+    # return startday, startloc, endday, days, people, person, mbti, mbti_list, month, relationship
 
 @api_view(['GET'])
 @parser_classes([JSONParser])
@@ -73,8 +73,8 @@ def test_plane_set(request):
     endday = datetime.strptime(option['date2'], '%Y-%m-%d')
     days = endday - startday
     people = option['Number']
-    user = option['user']
-    # mbti = User.objects.get(id=option['user'])
+    user = option['person']
+    # mbti = User.objects.get(id=option['person'])
     month = startday.month
     relationship = option['relationship']
 
@@ -117,7 +117,7 @@ def test_user(request):
     return JsonResponse({'e': e, 's': s, 't': t, 'j': j })
 
 def test_user_set(request):
-    # user
+    # person
     mbti_list = test_option(request)
     e = mbti_list.count('e')
     s = mbti_list.count('s')

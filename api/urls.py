@@ -22,6 +22,6 @@ urlpatterns = [
     path('api/jeju_data/', include('jeju_data.urls')),
     path('api/jeju/', include('jeju.urls')),
     path('api/image/', include('image.urls')),
-    path('api/user/', include('user.urls')),
+    path('api/person/', include('person.urls')),
     path('api/analysis/', include('analysis.urls')),
 ]

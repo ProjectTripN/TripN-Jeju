@@ -15,10 +15,10 @@ from jeju_data.models import Accommodation
 
 # class JejuSchedule(models.Model):
 #
-#     # days[0], plane, acc, activity, olle, restaurant, tourism, shop, startday, endday, day, people, user, relationship
+#     # days[0], plane, acc, activity, olle, restaurant, tourism, shop, startday, endday, day, people, person, relationship
 #     # Jeju_Schedule
 #
-#     user = models.IntegerField()  # user
+#     person = models.IntegerField()  # person
 #     reg_date = models.DateTimeField(default=datetime.now())  # 생성일
 #     startday = models.DateField()  # startday
 #     endday = models.DateField()  # endday
@@ -45,10 +45,10 @@ from jeju_data.models import Accommodation
 
 class JejuScheduleDetail(models.Model):
 
-    # days[0], plane, acc, activity, olle, restaurant, tourism, shop, startday, endday, day, people, user, relationship
+    # days[0], plane, acc, activity, olle, restaurant, tourism, shop, startday, endday, day, people, person, relationship
     # Jeju_Schedule
     id = models.IntegerField(primary_key=True) # 더미값 일괄 생성을 위해 default 사용 안함.
-    user = models.IntegerField()  # user
+    user = models.IntegerField()  # person
     # reg_date = models.DateTimeField(default=datetime.now())  # 생성일:더미값 일괄 생성을 위해 default 사용 안함.
     reg_date = models.DateField()
     startday = models.DateField()  # startday

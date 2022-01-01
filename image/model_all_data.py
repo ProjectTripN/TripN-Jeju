@@ -15,7 +15,7 @@ from sphinx.util import requests
 import json
 
 from image.models import Category, Image
-from user.models import Person
+from person.models import Person
 
 
 class AllDbUploader:
@@ -30,41 +30,40 @@ class AllDbUploader:
         plane_csv = 'jeju_data/data/plane.csv'
         accommodation_csv = 'jeju_data/data/accommodation.csv'
         jejuolle_csv = 'jeju_data/data/jejuolle.csv'
-        persons_csv = 'user/data/persons.csv'
-        user_csv = 'user/data/user.csv'
+        persons_csv = 'person/data/persons.csv'
+        user_csv = 'person/data/person.csv'
         chat_csv = 'chat/test/data/train.csv'
         schedule_csv = 'jeju/data/jeju_schedule_detail.csv'
 
         print('################ 2 category ################')
-        # self.insert_category(category_csv)
+        self.insert_category(category_csv)
         print('################ 3 image ################')
-        # self.insert_image_url(restaurant_csv, 'restaurant', 'name')
-        # self.insert_image_url(tourism_csv, 'tourism', 'name')
-        # self.insert_image_url(activity_csv, 'activity', 'name')
-        # self.insert_image_url(shop_csv, 'shop', 'name')
-        # self.insert_image_url(accommodation_csv, 'accommodation', 'name')
-        # self.insert_image_olle_url(jejuolle_csv, 'olle', 'course-name')
-        # self.insert_image_url(user_csv, 'user', 'gender')
+        self.insert_image_url(restaurant_csv, 'restaurant', 'name')
+        self.insert_image_url(tourism_csv, 'tourism', 'name')
+        self.insert_image_url(activity_csv, 'activity', 'name')
+        self.insert_image_url(shop_csv, 'shop', 'name')
+        self.insert_image_url(accommodation_csv, 'accommodation', 'name')
+        self.insert_image_olle_url(jejuolle_csv, 'olle', 'course-name')
         print('################  4 jeju_category_data  ################')
-        # self.insert_category_tourism(tourism_csv)
-        # self.insert_category_activity(activity_csv)
-        # self.insert_category_plane(plane_csv)
-        # self.insert_category_restaurant(restaurant_csv)
-        # self.insert_category_accommodation(accommodation_csv)
+        self.insert_category_tourism(tourism_csv)
+        self.insert_category_activity(activity_csv)
+        self.insert_category_plane(plane_csv)
+        self.insert_category_restaurant(restaurant_csv)
+        self.insert_category_accommodation(accommodation_csv)
         print('################  5 jeju_data  ################')
-        # self.insert_table_tourism(tourism_csv)
-        # self.insert_table_activity(activity_csv)
-        # self.insert_table_plane(plane_csv)
-        # self.insert_table_restaurant(restaurant_csv)
-        # self.insert_table_accommodation(accommodation_csv)
-        # self.insert_table_olle(jejuolle_csv)
-        # self.insert_table_shop(shop_csv)
+        self.insert_table_tourism(tourism_csv)
+        self.insert_table_activity(activity_csv)
+        self.insert_table_plane(plane_csv)
+        self.insert_table_restaurant(restaurant_csv)
+        self.insert_table_accommodation(accommodation_csv)
+        self.insert_table_olle(jejuolle_csv)
+        self.insert_table_shop(shop_csv)
         print('################ 6 person ################')
-        # self.insert_category_person(persons_csv)
+        self.insert_category_person(persons_csv)
         print('################ 7 chat ################')
-        # self.insert_chatDB(chat_csv)
+        self.insert_chatDB(chat_csv)
         print('################ 8 schedule ################')
-        self.insert_schedule(schedule_csv)
+        # self.insert_schedule(schedule_csv)
         print('################ 끝   끝   끝 ################')
 
 
@@ -387,8 +386,8 @@ class AllDbUploader:
                 ac = Accommodation()
                 accommodation = Accommodation.objects.all().filter(id=row['acc']).values()[0]
                 ac.id = accommodation['id']
-                if not JejuScheduleDetail.objects.filter(id=row['id'], user=row['user'], reg_date=row['reg_date']).exists():  # 동일한 값 있으면 넘어가
-                    jeju_detail = JejuScheduleDetail.objects.create(id=row['id'], user=row['user'], startday=row['startday'],
+                if not JejuScheduleDetail.objects.filter(id=row['id'], user=row['person'], reg_date=row['reg_date']).exists():  # 동일한 값 있으면 넘어가
+                    jeju_detail = JejuScheduleDetail.objects.create(id=row['id'], user=row['person'], startday=row['startday'],
                                                                     endday=row['endday'], day=row['day'], reg_date=row['reg_date'],
                                                                     startloc=row['startloc'], people=row['people'], relationship=row['relationship'],
                                                                     category=c, plane=row['plane'], plane_detail=row['plane_detail'],

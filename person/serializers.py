@@ -1,6 +1,6 @@
 from rest_framework import serializers
 # pip install Django django-rest-framework
-# from .models import User as user
+# from .models import User as person
 #
 # class UserSerializer(serializers.Serializer):
 #
@@ -18,11 +18,11 @@ from rest_framework import serializers
 #     regDate = serializers.DateField()
 #
 #     class Meta:
-#         model = user
+#         model = person
 #         fields = '__all__'
 #
 #     def create(self, validated_data):
-#         return user.objects.create(**validated_data)
+#         return person.objects.create(**validated_data)
 #
 #     def update(self, instance, validated_data):
-#         user.objects.filter(pk=instance.id).update(**validated_data)
+#         person.objects.filter(pk=instance.id).update(**validated_data)

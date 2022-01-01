@@ -16,7 +16,7 @@ from jeju.models_process import JejuProcess
 from jeju.serializer import JejuDSerializer
 from jeju_data.models import Plane, PlaneCategory, Accommodation, Activity
 from jeju_data.serializer import PlaneSerializer, AccommodationSerializer
-# from user.models import User
+# from person.models import User
 
 @api_view(['POST'])
 @parser_classes([JSONParser])
@@ -82,7 +82,7 @@ def days(request):
 @parser_classes([JSONParser])
 def down(request):
     with open('jeju/data/jeju_schedule_detail.csv', 'w', newline='', encoding='utf8') as csvfile:
-        fieldnames = ['id', 'user', 'startday', 'endday', 'day', 'reg_date', 'startloc', 'people', 'relationship',
+        fieldnames = ['id', 'person', 'startday', 'endday', 'day', 'reg_date', 'startloc', 'people', 'relationship',
                       'category', 'plane',
                       'plane_detail', 'acc', 'acc_detail', 'activity', 'activity_name', 'olle', 'restaurant', 'tourism',
                       'shop', 'dday', 'schedule']
@@ -94,7 +94,7 @@ def down(request):
 
         for schedule in JejuScheduleDetail.objects.all():
             writer.writerow(
-                {'id': schedule.id, 'user': schedule.user, 'startday': schedule.startday, 'endday': schedule.endday,
+                {'id': schedule.id, 'person': schedule.user, 'startday': schedule.startday, 'endday': schedule.endday,
                  'day': schedule.day, 'reg_date': schedule.reg_date,
                  'startloc': schedule.startloc, 'people': schedule.people, 'relationship': schedule.relationship,
                  'category': schedule.category, 'plane': schedule.plane,
@@ -130,7 +130,7 @@ def down(request):
 #     # accommodation = Accommodation.objects.filter(id=check['acc']).values()[0]
 #     # ac.id = accommodation['id']
 #     # jeju_detail = JejuScheduleDetail.objects.create(
-#     #     user=check['user'], id=count.count()+1, startday=datetime.datetime.strptime(check['date1'], '%Y-%m-%d'), endday=datetime.datetime.strptime(check['date2'], '%Y-%m-%d'),
+#     #     person=check['person'], id=count.count()+1, startday=datetime.datetime.strptime(check['date1'], '%Y-%m-%d'), endday=datetime.datetime.strptime(check['date2'], '%Y-%m-%d'),
 #     #     day=jeju.count_day(), reg_date=(datetime.strptime(check['date1'], '%Y-%m-%d'))-random.randrange(30), startloc=check['start'], people=check['Number'], relationship=check['relationship'],
 #     #     category=c, plane=check['plane'], plane_detail=plane_data, acc=ac, acc_detail=acc_data, activity=check['activty'], activity_name=activity, olle=check['olle'],restaurant
 #     # )
@@ -172,13 +172,13 @@ def save_days(request):
     jds = JejuDSerializer(jeju_detail).data
     return JsonResponse(data=(jds), safe=False)
     # if len(days) == 13:
-    #     js_data = JejuSchedule.objects.filter(user=days[11]['user'], startday=days[7]['startday'], endday=days[8]['endday']).values()
+    #     js_data = JejuSchedule.objects.filter(person=days[11]['person'], startday=days[7]['startday'], endday=days[8]['endday']).values()
     #     js = JejuSerializer(js_data, many=True).data
     #     return JsonResponse(data=(jds),safe=False)
     #
     # if len(days) == 14:
     #     olle = {"olle" : days[13]}
-    #     js_data = JejuSchedule.objects.filter(user=days[11]['user'], startday=days[7]['startday'], endday=days[8]['endday']).values()
+    #     js_data = JejuSchedule.objects.filter(person=days[11]['person'], startday=days[7]['startday'], endday=days[8]['endday']).values()
     #     js = JejuSerializer(js_data, many=True).data
     #     return JsonResponse(data=(jds), safe=False)
 #
@@ -204,19 +204,19 @@ def save_days(request):
 #     endday = days[8]
 #     day = days[9]
 #     people = days[10]
-#     user = days[11]
+#     person = days[11]
 #     relationship = days[12]
 #     print(days[11], days[7], days[8])
 #     if len(days) == 13:
-#         js_data = JejuSchedule.objects.filter(user=days[11]['user'], startday=days[7]['startday'], endday=days[8]['endday']).values()
+#         js_data = JejuSchedule.objects.filter(person=days[11]['person'], startday=days[7]['startday'], endday=days[8]['endday']).values()
 #         js = JejuSerializer(js_data, many=True).data
-#         return JsonResponse(data=(js, days[0], plane, acc, activity, restaurant, tourism, shop, startday, endday, day, people, user, relationship),safe=False)
+#         return JsonResponse(data=(js, days[0], plane, acc, activity, restaurant, tourism, shop, startday, endday, day, people, person, relationship),safe=False)
 #
 #     if len(days) == 14:
 #         olle = {"olle" : days[13]}
-#         js_data = JejuSchedule.objects.filter(user=days[11]['user'], startday=days[7]['startday'], endday=days[8]['endday']).values()
+#         js_data = JejuSchedule.objects.filter(person=days[11]['person'], startday=days[7]['startday'], endday=days[8]['endday']).values()
 #         js = JejuSerializer(js_data, many=True).data
-#         return JsonResponse(data=(js, days[0], plane, acc, activity, olle, restaurant, tourism, shop, startday, endday, day, people, user, relationship), safe=False)
+#         return JsonResponse(data=(js, days[0], plane, acc, activity, olle, restaurant, tourism, shop, startday, endday, day, people, person, relationship), safe=False)
 
 # @api_view(['GET', 'POST'])
 # @parser_classes([JSONParser])

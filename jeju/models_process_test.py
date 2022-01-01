@@ -14,7 +14,7 @@ django.setup()
 from jeju_data.serializer import RestaurantSerializer, PlaneSerializer, AccommodationSerializer, ActivitySerializer, \
     OlleSerializer, ShopSerializer, TourismSerializer
 from jeju_data.models import Plane, PlaneCategory, Accommodation, Restaurant, Olle, Activity, Tourism, Shop
-from user.models import User
+from person.models import User
 
 
 
@@ -27,7 +27,7 @@ class JejuProcessTest:
         self.endday = datetime.strptime(option['date2'], '%Y-%m-%d')
         self.days = (self.endday - self.startday).days
         self.people = option['Number']
-        self.user = User.objects.filter(id = option['user']).values()[0]
+        self.user = User.objects.filter(id = option['person']).values()[0]
         self.mbti = self.user['mbti']
         self.mbti_list = self.user['mbti_list']
         self.month = self.startday.month
@@ -1287,7 +1287,7 @@ class JejuProcessTest:
 
 
 if __name__ == '__main__':
-    option = {"date1": '2021-05-30', "date2": '2021-06-09', 'start': 'gmp', 'Number': 4, 'user': 2, 'relationship': 'family'}
+    option = {"date1": '2021-05-30', "date2": '2021-06-09', 'start': 'gmp', 'Number': 4, 'person': 2, 'relationship': 'family'}
     a = JejuProcessTest(option)
     # a.process()
     acc = {'acc' : 15}

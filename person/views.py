@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, parser_classes
 
-from user.model_data import DbUploader
+from person.model_data import DbUploader
 
 
 @api_view(['GET'])

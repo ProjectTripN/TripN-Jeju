@@ -51,8 +51,8 @@ class DbUploader():
                 ac = Accommodation()
                 accommodation = Accommodation.objects.all().filter(category=row['acc_id']).values()[0]
                 ac.id = accommodation['id']
-                if not JejuScheduleDetail.objects.filter(id=row['id'], user=row['user'], reg_date=row['reg_date']).exists():  # 동일한 값 있으면 넘어가
-                    jeju_detail = JejuScheduleDetail.objects.create(user=row['user'], id=row['id'], startday=row['startday'],
+                if not JejuScheduleDetail.objects.filter(id=row['id'], user=row['person'], reg_date=row['reg_date']).exists():  # 동일한 값 있으면 넘어가
+                    jeju_detail = JejuScheduleDetail.objects.create(user=row['person'], id=row['id'], startday=row['startday'],
                                                                     endday=row['endday'], day=row['day'], reg_date=row['reg_date'],
                                                                     startloc=row['startloc'], people=row['people'], relationship=row['relationship'],
                                                                     category=c, plane=row['plane'], plane_detail=row['plane_detail'],
@@ -65,7 +65,7 @@ class DbUploader():
 
     def data_set_schedule(self):
         with open('jeju/data/jeju_schedule_detail.csv', 'w', newline='', encoding='utf8') as csvfile:
-            fieldnames = ['id', 'user', 'startday', 'endday', 'day', 'reg_date', 'startloc', 'people', 'relationship', 'category', 'plane',
+            fieldnames = ['id', 'person', 'startday', 'endday', 'day', 'reg_date', 'startloc', 'people', 'relationship', 'category', 'plane',
                           'plane_detail', 'acc', 'acc_detail', 'activity', 'activity_name', 'olle', 'restaurant', 'tourism', 'shop', 'dday', 'schedule']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
@@ -74,7 +74,7 @@ class DbUploader():
             jds = JejuDSerializer(schedule).data
 
             for schedule in jds:
-                writer.writerow({'id':schedule.id, 'user':schedule.user, 'startday':schedule.startday, 'endday':schedule.endday, 'day':schedule.day, 'reg_date':schedule.reg_date,
+                writer.writerow({'id':schedule.id, 'person':schedule.user, 'startday':schedule.startday, 'endday':schedule.endday, 'day':schedule.day, 'reg_date':schedule.reg_date,
                                  'startloc':schedule.startloc, 'people':schedule.people, 'relationship':schedule.relationship, 'category':schedule.category, 'plane':schedule.plane,
                                  'plane_detail':schedule.plane_detail, 'acc':schedule.acc, 'acc_detail':schedule.acc_detail, 'activity':schedule.activity, 'activity_name':schedule.activity_name,
                                  'olle':schedule.olle, 'restaurant':schedule.restaurant, 'tourism':schedule.tourism, 'shop':schedule.shop, 'dday':schedule.dday, 'schedule':schedule.schedule})

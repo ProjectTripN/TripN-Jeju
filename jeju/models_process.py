@@ -21,7 +21,7 @@ django.setup()
 from jeju_data.serializer import RestaurantSerializer, PlaneSerializer, AccommodationSerializer, ActivitySerializer, \
     OlleSerializer, ShopSerializer, TourismSerializer
 from jeju_data.models import Plane, PlaneCategory, Accommodation, Restaurant, Olle, Activity, Tourism, Shop
-# from user.models import User
+# from person.models import User
 from jeju.models import JejuScheduleDetail
 
 
@@ -33,7 +33,7 @@ class JejuProcess:
         self.days = (self.endday - self.startday).days + 1
         self.people = option['Number']
         self.user_id = option['user']
-        # self.user = User.objects.filter(id = option['user']).values()[0]
+        # self.person = User.objects.filter(id = option['person']).values()[0]
         self.mbti_list = option['mbti']
         self.month = self.startday.month
         self.relationship = option['relationship']
@@ -510,11 +510,11 @@ class RDATA:
         return serializer.data
 
 if __name__ == '__main__':
-    option = {"date1": '2021-05-30', "date2": '2021-06-09', 'start': 'gmp', 'Number': 4, 'user': 2, 'relationship': 'family'}
+    option = {"date1": '2021-05-30', "date2": '2021-06-09', 'start': 'gmp', 'Number': 4, 'person': 2, 'relationship': 'family'}
     a = JejuProcess(option)
     a.process()
     choice = {'acc' : 15, 'activty' : [1, 5, 6, 20, 15, 17, 18], 'olle': ['거문오름']}
     # a.process_days(choice)
-    choice = {"date1": "2021-05-30", "date2": "2021-06-09", "start": "gmp", "Number": 4, "user": 2, "relationship": "family", "plane" : [24, 127], "acc": 15, "activty": [1,5,6,23,29,17,14], "olle": ["무릉-용수 올레", "금악오름"] }
+    choice = {"date1": "2021-05-30", "date2": "2021-06-09", "start": "gmp", "Number": 4, "person": 2, "relationship": "family", "plane" : [24, 127], "acc": 15, "activty": [1,5,6,23,29,17,14], "olle": ["무릉-용수 올레", "금악오름"] }
     a.save_day_set(choice)
 

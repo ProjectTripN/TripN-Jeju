@@ -24,8 +24,8 @@ class DbUploader():
         # vo.fname = 'category.csv'
         vo.context = 'jeju_data/data/'
         vo.fname = 'jejuolle.csv'
-        # vo.context = 'user/data/'
-        # vo.fname = 'user.csv'
+        # vo.context = 'person/data/'
+        # vo.fname = 'person.csv'
         # restaurant, shop, tourism, activity, plane, accommodation, jejuolle
         self.csvfile = reader.new_file(vo)
 
