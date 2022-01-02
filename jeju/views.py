@@ -76,8 +76,6 @@ def days(request):
 
 
 
-
-
 @api_view(['PUT'])
 @parser_classes([JSONParser])
 def down(request):
@@ -239,7 +237,6 @@ def list_all(request):
     jejuSchedule = JejuScheduleDetail.objects.all()
     serializer = JejuDSerializer(jejuSchedule, many=True)
     return JsonResponse(data = serializer.data, safe=False)
-
 
 
 @api_view(['GET', 'POST'])
