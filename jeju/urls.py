@@ -15,8 +15,8 @@ urlpatterns = [
     # path(r'save_days', views.save_days_d),
     path(r'save_days', views.save_days),
     # url(r'list/(?P<user_id>\w{0,500})$', views.list_by_user),
-    url(r'ddd/(?P<person>\w{0,500})$', views.list_by_user_d),
-    url(r'pr_days/(?P<person>\w{0,500})$', views.list_by_user_pr),
+    url(r'ddd/(?P<user>\w{0,500})$', views.list_by_user_d),
+    url(r'pr_days/(?P<user>\w{0,500})$', views.list_by_user_pr),
     url(r'remove/(?P<pk>\w{0,500})$', views.del_list_by_user),
     path(r'update_dday', views.dday_up),
     path(r'all_recommendation', views.list_all)
