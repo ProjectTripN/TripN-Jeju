@@ -124,7 +124,7 @@ DATABASES = {
         'NAME': 'tripn-mariadb',
         'USER': 'root',
         'PASSWORD': 'root',
-        # 'HOST': 'host.docker.internal',
+        #'HOST': 'host.docker.internal',
         # 'NAME': 'tripN_jejudb',
         # 'USER': 'root',
         # 'PASSWORD': 'root',
