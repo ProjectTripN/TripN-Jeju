@@ -96,7 +96,7 @@ class TrainModel:
         print('loss: %f' % (loss))
 
         # 모델 저장  ○8
-        model.save('chat_model.h5')
+        model.save('chat_model_3.h5')
 
         # def predictModel(self):
         #
@@ -199,8 +199,8 @@ class TestChat:
 
 
 if __name__ == '__main__':
-    # TrainModel = TrainModel()
-    # TrainModel.createModel()
+    TrainModel = TrainModel()
+    TrainModel.createModel()
 
     question = "제주 갈치 맛집 알려줘"
 
