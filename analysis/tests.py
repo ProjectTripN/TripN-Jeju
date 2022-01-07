@@ -75,9 +75,9 @@ class data_norminal():
     X_test = make_Tensor(X_test)
     y_test = make_Tensor(y_test)
 
-class CovidPredictor(nn.Module):
+class VisitorPredictor(nn.Module):
     def __init__(self, n_features, n_hidden, seq_len, n_layers):
-        super(CovidPredictor, self).__init__()
+        super(VisitorPredictor, self).__init__()
         self.n_hidden = n_hidden
         self.seq_len = seq_len
         self.n_layers = n_layers
@@ -165,13 +165,13 @@ class CovidPredictor(nn.Module):
 class create_model():
     def create(self):
         d = data_norminal()
-        model = CovidPredictor(
+        model = VisitorPredictor(
                 n_features=1,
                 n_hidden=6,
                 seq_len=d.seq_length,
                 n_layers=1
             )
-        model, train_hist, val_hist = CovidPredictor.train_model(
+        model, train_hist, val_hist = VisitorPredictor.train_model(
             model,
             d.X_train,
             d.y_train,

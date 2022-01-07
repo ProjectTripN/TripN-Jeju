@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://192.168.0.35:3001', ]
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://192.168.0.35:3000', ]
 CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE = [
@@ -124,11 +124,11 @@ DATABASES = {
         'NAME': 'tripn-mariadb',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': 'host.docker.internal',
+        # 'HOST': 'host.docker.internal',
         # 'NAME': 'tripN_jejudb',
         # 'USER': 'root',
         # 'PASSWORD': 'root',
-        # 'HOST': '127.0.0.1',
+        'HOST': '127.0.0.1',
         # 'NAME': 'tripN_marsiadb',
         # 'USER': 'admin',
         # 'PASSWORD': get_secret("AWS_PASS"),
